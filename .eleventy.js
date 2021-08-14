@@ -1,8 +1,15 @@
 'use strict';
 
+const yaml = require("js-yaml");
+const now = new Date().getFullYear();
+
 module.exports = (eleventyConfig) => {
-  eleventyConfig.addPassthroughCopy('src/images')
-  eleventyConfig.addPassthroughCopy('src/css')
+  eleventyConfig.addPassthroughCopy('src/images');
+  eleventyConfig.addPassthroughCopy('src/css');
+
+  eleventyConfig.addNunjucksShortcode("year", () => `${now}` );
+
+  eleventyConfig.addDataExtension("yaml", contents => yaml.load(contents));
 
   return {
     dir: {

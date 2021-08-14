@@ -1,15 +1,18 @@
 * { box-sizing: border-box; }
 
 html {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: min(1em + 0.5vw, 1.5em);
   height: 100%;
 }
 
 body {
   display: grid;
-  grid-template-rows: auto 1fr;
+  gap: 1em;
+  grid-template-rows: auto 1fr auto;
+  margin: 0;
   min-height: 100%;
   padding: 1em;
-  margin: 0;
 }
 
 label,
@@ -19,4 +22,15 @@ textarea {
 
 textarea {
   width: 100%;
+}
+
+
+/* grids */
+[data-grid] {
+  display: grid;
+  gap: 1em;
+}
+
+[data-grid='writer'] {
+  grid-template: auto 1fr / 100%;
 }
