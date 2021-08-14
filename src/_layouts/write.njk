@@ -34,13 +34,18 @@ eleventyComputed:
     </li>
   </ul>
 
-  <details data-drop="up left">
-    <summary>wtf?!</summary>
-    <div>
-      All you have to do is type
-      the right words in the right order.
-      We'll help with capitalization,
-      and a spacebar that inserts punctuation.
-    </div>
-  </details>
+  <div class="more">
+    {% if doc.data.details %}
+      <p>{{ doc.data.details | safe }}</p>
+    {% endif %}
+
+    <details data-drop="up left">
+      <summary>wtf?!</summary>
+      <div>
+        All you have to do is type
+        the right words in the right order.
+        The spacebar handles all whitespace & punctuation.
+      </div>
+    </details>
+  </div>
 </aside>
