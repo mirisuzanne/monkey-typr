@@ -2,7 +2,8 @@
 <p>
   A monkey hitting keys at random
   for an infinite amount of time
-  will eventually want some help.
+  will eventually want some help
+  writing Hamlet (or whatever).
   <i>
     You're the monkey.
     We're here to help.
@@ -12,7 +13,7 @@
 
 {% if docs | length > 0 %}
   <ul>
-    {% for item in docs %}
+    {% for item in docs | sort(false, false, 'slug') %}
       <li>
         <a href="/write/{{ item.slug }}/"><i>{{ item.data.title or item.slug }}</i></a>
 

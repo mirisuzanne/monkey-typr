@@ -38,7 +38,7 @@ html {
   --text: var(--dark);
   --action: mediumvioletred;
   --full: white;
-  --invert: black;
+  --callout: hsl(0 0% 0% / 0.2);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -47,7 +47,6 @@ html {
     --text: var(--light);
     --action: pink;
     --full: black;
-    --invert: white;
   }
 }
 
@@ -56,7 +55,6 @@ html {
   --text: var(--dark);
   --action: mediumvioletred;
   --full: white;
-  --invert: black;
 }
 
 [data-mode=dark] {
@@ -64,7 +62,6 @@ html {
   --text: var(--light);
   --action: pink;
   --full: black;
-  --invert: white;
 }
 
 /* base */
@@ -221,7 +218,7 @@ textarea:focus {
 }
 
 aside {
-  background: var(--full);
+  background: var(--callout);
   display: grid;
   font-size: 0.8em;
   gap: 1em;
