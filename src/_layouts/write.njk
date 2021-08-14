@@ -1,0 +1,16 @@
+---
+layout: base.njk
+eleventyComputed:
+  book: '{{ doc.data.title or doc.slug }}'
+  title: 'Write {{ doc.data.title or doc.slug }}'
+---
+
+<label for="typr">Please write {{ book }}:</label>
+<textarea name="{{ doc.slug }}" id="typr"></textarea>
+
+{% if doc %}
+  <script>
+    {% include "write.js" %}
+    document.onload = write(`{{ doc.content | safe }}`);
+  </script>
+{% endif %}

@@ -1,0 +1,22 @@
+* { box-sizing: border-box; }
+
+html {
+  height: 100%;
+}
+
+body {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-height: 100%;
+  padding: 1em;
+  margin: 0;
+}
+
+label,
+textarea {
+  display: block;
+}
+
+textarea {
+  width: 100%;
+}

@@ -1,0 +1,18 @@
+{
+  "name": "monkey-typr",
+  "version": "0.1.0",
+  "title": "Monkey Typr",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mirisuzanne/monkey-typr.git"
+  },
+  "private": true,
+  "scripts": {
+    "serve": "npx @11ty/eleventy --serve",
+    "build": "npx @11ty/eleventy"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^0.12.1",
+    "gray-matter": "^4.0.3"
+  }
+}

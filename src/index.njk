@@ -1,0 +1,12 @@
+{% if docs | length > 0 %}
+  <ul>
+    {% for item in docs %}
+      <li>
+        <a href="/write/{{ item.slug }}/">
+          {{ item.data.title or item.slug }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
