@@ -4,8 +4,11 @@ const yaml = require("js-yaml");
 const now = new Date().getFullYear();
 
 module.exports = (eleventyConfig) => {
+  eleventyConfig.addWatchTarget("./txt/");
+
   eleventyConfig.addPassthroughCopy('src/images');
   eleventyConfig.addPassthroughCopy('src/css');
+  eleventyConfig.addPassthroughCopy('src/fonts');
 
   eleventyConfig.addNunjucksShortcode("year", () => `${now}` );
 

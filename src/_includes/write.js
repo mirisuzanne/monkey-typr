@@ -1,7 +1,5 @@
 const write = (doc) => {
   const editor = document.getElementById('typr');
-  // replace tabs and then trim
-  const content = doc.replace('	', '    ').trim();
   let current = '';
 
   const autoType = (event, nextChar) => {
@@ -10,12 +8,12 @@ const write = (doc) => {
   }
 
   const getCurrent = () => {
-    current = content.startsWith(editor.value) ? editor.value : current;
+    current = doc.startsWith(editor.value) ? editor.value : current;
   }
 
-  const handleSpecial = (event) => {
+  const easyMode = (event) => {
     const value = editor.value;
-    const nextChar = content.charAt(value.length);
+    const nextChar = doc.charAt(value.length);
 
     if (event.key === nextChar) {
       return;
@@ -27,18 +25,14 @@ const write = (doc) => {
   }
 
   const checkInput = (event) => {
-    if (!content.startsWith(editor.value)) {
+    if (!doc.startsWith(editor.value)) {
       editor.value = current;
     }
   }
 
-  if (editor && content) {
+  if (editor && doc) {
     editor.addEventListener('beforeinput', getCurrent);
-    editor.addEventListener('keydown', handleSpecial);
+    editor.addEventListener('keydown', easyMode);
     editor.addEventListener('input', checkInput);
-  } else {
-    console.log('oops');
-    console.log(`editor: ${!!editor}`);
-    console.log(`doc: ${!!content}`);
   }
 }

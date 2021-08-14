@@ -19,6 +19,8 @@ module.exports = function() {
 
         const doc = matter(data);
         doc.slug = file.split('.')[0];
+        doc.content = doc.content.replace('	', '    ').trim();
+        doc.chars = doc.content.length;
         docs.push(doc);
       });
     });

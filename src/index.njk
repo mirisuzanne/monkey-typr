@@ -1,10 +1,21 @@
+
+<p>
+  A monkey hitting keys at random
+  for an infinite amount of time
+  will eventually want some help.
+  <i>You're the monkey.</i>
+  What would you like to write?
+</p>
+
 {% if docs | length > 0 %}
   <ul>
     {% for item in docs %}
       <li>
-        <a href="/write/{{ item.slug }}/">
-          {{ item.data.title or item.slug }}
-        </a>
+        <a href="/write/{{ item.slug }}/"><i>{{ item.data.title or item.slug }}</i></a>
+
+        {% if item.data.author %}
+          by {{ item.data.author }}
+        {% endif %}
       </li>
     {% endfor %}
   </ul>

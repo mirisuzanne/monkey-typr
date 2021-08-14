@@ -8,19 +8,9 @@ eleventyComputed:
 
 <label for="typr">
   Please write
-  <strong>{{ book }}</strong>
-  and nothing else:
+  all <b>{{ doc.chars }}</b>
+  characters of
+  <i>{{ book }}</i>
+  in order:
 </label>
 <textarea name="{{ doc.slug }}" id="typr"></textarea>
-<p>
-  Remember: writing {{ book }} is not magic,
-  you just need to type all the right characters
-  in the right order.
-</p>
-
-{% if doc %}
-  <script>
-    {% include "write.js" %}
-    document.onload = write(`{{ doc.content | safe }}`);
-  </script>
-{% endif %}
