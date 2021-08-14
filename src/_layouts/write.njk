@@ -1,16 +1,46 @@
 ---
 layout: base.njk
-grid: writer
+grid: sidebar
 eleventyComputed:
   book: '{{ doc.data.title or doc.slug }}'
   title: 'Write {{ doc.data.title or doc.slug }}'
 ---
 
-<label for="typr">
-  Please write
-  all <b>{{ doc.chars }}</b>
-  characters of
-  <i>{{ book }}</i>
-  in order:
-</label>
-<textarea name="{{ doc.slug }}" id="typr"></textarea>
+<textarea name="{{ doc.slug }}" id="typr" aria-labelledby="book" placeholder="..."></textarea>
+<aside>
+  <ul class="stats" role="list">
+    <li>
+      <strong>Target</strong>:
+      <span data-target="{{ doc.chars }}">{{ doc.chars }}</span>
+    </li>
+    <li>
+      <strong>Remaining</strong>:
+      <span data-remaining>{{ doc.chars }}</span>
+    </li>
+    <li>
+      <strong>Correct</strong>:
+      <output data-correct>0</output>
+    </li>
+    <li>
+      <strong>Wasted</strong>:
+      <output data-wasted>0</output>
+    </li>
+    <li>
+      <strong>Previous</strong>:
+      <output data-previous>…</output>
+    </li>
+    <li>
+      <output data-hint></output>
+    </li>
+  </ul>
+
+  <details data-drop="up left">
+    <summary>wtf?!</summary>
+    <div>
+      All you have to do is type
+      the right words in the right order.
+      We'll help with capitalization,
+      and a spacebar that inserts punctuation.
+    </div>
+  </details>
+</aside>
