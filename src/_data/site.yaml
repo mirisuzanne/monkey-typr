@@ -1,5 +1,18 @@
 logo: 🙈
-title: monkey.writr
+title: monkey.writr.art
+url: https://monkey.writr.art/
 author:
   name: Miriam Suzanne
   url: https://miriamsuzanne.com/
+description: |
+  Infinite monkeys at a keyboard
+  will eventually want some help writing Hamlet (or whatever).
+  You're the monkey. We're here to help.
+og:
+  locale: en_US
+  type: website
+  img: images/monkey.jpg
+  alt: |
+    monkey.writr.art:
+    You're infinite monkeys on a deadline.
+    We're here to help.

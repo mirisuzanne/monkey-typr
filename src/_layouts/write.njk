@@ -4,6 +4,11 @@ grid: sidebar
 eleventyComputed:
   book: '{{ doc.data.title or doc.slug }}'
   title: 'Write {{ doc.data.title or doc.slug }}'
+  desc: |
+    Write {{ doc.data.title or doc.slug }}
+    {% if doc.data.author %}by {{ doc.data.author }}{% endif %}
+    as though you are a monkey with infinite time,
+    a keyboad, a a bit of help.
 ---
 
 <textarea name="{{ doc.slug }}" id="typr" aria-labelledby="book" placeholder="..."></textarea>

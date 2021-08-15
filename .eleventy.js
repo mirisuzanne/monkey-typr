@@ -1,5 +1,6 @@
 'use strict';
 
+const pluginRss = require("@11ty/eleventy-plugin-rss");
 const yaml = require("js-yaml");
 const now = new Date().getFullYear();
 
@@ -13,6 +14,7 @@ module.exports = (eleventyConfig) => {
   eleventyConfig.addNunjucksShortcode("year", () => `${now}` );
 
   eleventyConfig.addDataExtension("yaml", contents => yaml.load(contents));
+  eleventyConfig.addPlugin(pluginRss);
 
   return {
     dir: {
