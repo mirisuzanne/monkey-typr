@@ -1,8 +1,8 @@
 const write = (doc) => {
   const editor = document.getElementById('typr');
-  let current = '';
+  const mode = 'normal';
 
-  // the stats
+  // the reported stats
   const statsOut = {};
 
   [
@@ -25,11 +25,11 @@ const write = (doc) => {
     statsOut[name].innerHTML = value;
   }
 
-  const target = getStat('target');
+  let target = getStat('target');
   let fails = 0;
 
   const stats = {
-    target,
+    target: target,
     correct: 0,
     wasted: 0,
     remaining: target,
@@ -41,16 +41,26 @@ const write = (doc) => {
     Object.keys(stats).forEach((name) => { setStat(name, stats[name]) });
   }
 
-  // the writing
-  const getCurrent = () => {
-    current = doc.startsWith(editor.value) ? editor.value : current;
+  // the current state
+  const state = {
+    value: '',
+    count: 0,
+    need: '',
+  };
+
+  const setState = () => {
+    state.value = doc.startsWith(editor.value) ? editor.value : state.value;
+    state.count = state.value.length;
+    state.need = doc.charAt(state.count);
   }
 
-  const tried = (char, good) => {
-    stats.previous = char;
-    stats.correct = editor.value.length;
-    stats.remaining = target - stats.correct;
+  // recording the details
+  const recordEvent = (event) => {
+    stats.previous = event.data;
+    setState();
+  }
 
+  const recordResult = (good) => {
     if (good) {
       fails = 0;
       stats.hint = '';
@@ -59,52 +69,69 @@ const write = (doc) => {
       stats.wasted += 1;
 
       if (fails > 10) {
-        const nextChar = doc.charAt(stats.correct);
-        stats.hint = `Have you tried "${nextChar}"?`;
+        stats.hint = `⚠️ Have you tried "${state.need}"?`;
       } else {
         stats.hint = '';
       }
     }
 
+    setState();
+    stats.correct = state.count;
+    stats.remaining = stats.target - stats.correct;
     pushStats(stats);
   }
 
-  const easyMode = (event) => {
-    const value = editor.value;
-    const nextChar = doc.charAt(value.length);
+  // cheat code!
+  const isSpecial = (value) => {
+    return (value.search(/[^\w\d]/g) !== -1);
+  }
 
-    // update keystroke
-    setStat('previous', stats.previous);
+  const autoType = () => {
+    editor.value += state.need;
+    return true;
+  }
 
-    // insert characters
-    const autoType = (event, nextChar) => {
-      editor.value += nextChar;
-      event.preventDefault();
-      tried(event.key, true);
-    }
-
-    // easy mode helpers
-    if (event.key === nextChar) {
-      return;
-    } else if (event.key.toLowerCase() === nextChar.toLowerCase()) {
-      autoType(event, nextChar);
-    } else if ((event.key === ' ') && (nextChar.search(/[^\w\d]/g) !== -1)) {
-      autoType(event, nextChar);
+  // cheat modes
+  const normalCheat = () => {
+    if (stats.previous.toLowerCase() === state.need.toLowerCase()) {
+      return autoType();
+    } else if ((stats.previous === ' ') && isSpecial(state.need)) {
+      return autoType();
+    } else {
+      return false;
     }
   }
 
-  const checkInput = (event) => {
-    if (!doc.startsWith(editor.value)) {
-      editor.value = current;
-      tried(event.data, false);
-    } else {
-      tried(event.data, true);
+  // actual input handling
+  const handleInput = (event) => {
+    recordEvent(event);
+
+    if (stats.previous === state.need) {
+      recordResult(true);
+    } else if (stats.previous) {
+      // reset
+      event.preventDefault();
+      editor.value = state.value;
+
+      // try some cheats
+      let result = false;
+
+      if (mode === 'normal') {
+        result = normalCheat();
+      }
+
+      // record the result
+      recordResult(result);
     }
+  }
+
+  // init onload
+  const init = () => {
+    setState();
+    editor.addEventListener('input', handleInput);
   }
 
   if (editor && doc) {
-    editor.addEventListener('beforeinput', getCurrent);
-    editor.addEventListener('keydown', easyMode);
-    editor.addEventListener('input', checkInput);
+    document.onload = init();
   }
 }
