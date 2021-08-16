@@ -160,13 +160,13 @@ const write = (doc) => {
   const init = () => {
     setState();
     updateControls();
-    editor && editor.addEventListener('input', handleInput);
-    cheatControls.off && cheatControls.off.addEventListener("change", () => setCheat("off"));
-    cheatControls.normal && cheatControls.normal.addEventListener("change", () => setCheat("normal"));
-    cheatControls.all && cheatControls.all.addEventListener("change", () => setCheat("all"));
+    editor.addEventListener('input', handleInput);
+    cheatControls.off.addEventListener("change", () => setCheat("off"));
+    cheatControls.normal.addEventListener("change", () => setCheat("normal"));
+    cheatControls.all.addEventListener("change", () => setCheat("all"));
   }
 
-  if (doc) {
+  if (doc && editor) {
     document.onload = init();
   }
 }
