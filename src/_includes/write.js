@@ -157,7 +157,7 @@ const write = (doc) => {
   }
 
   // init onload
-  const init = () => {
+  if (editor && doc) {
     setState();
     updateControls();
     editor.addEventListener('input', handleInput);
@@ -165,6 +165,4 @@ const write = (doc) => {
     cheatControls.normal.addEventListener("change", () => setCheat("normal"));
     cheatControls.all.addEventListener("change", () => setCheat("all"));
   }
-
-  document.onload = init();
 }
