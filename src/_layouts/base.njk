@@ -71,7 +71,7 @@
   {% if doc %}
     <script>
       {% include "write.js" %}
-      document.onload = write(`{{ doc.content | safe }}`);
+      write(`{{ doc.content | safe }}`);
     </script>
   {% endif %}
 </body>
