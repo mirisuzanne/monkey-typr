@@ -1,6 +1,34 @@
 const write = (doc) => {
   const editor = document.getElementById('typr');
-  const mode = 'normal';
+
+  // setting the mode
+  const cheatControls = {
+    off: document.querySelector('[data-cheat="off"]'),
+    normal: document.querySelector('[data-cheat="normal"]'),
+    all: document.querySelector('[data-cheat="all"]'),
+  };
+
+  const setCheat = (scheme) => {
+    if (scheme === 'normal') {
+      localStorage.removeItem('cheat');
+    } else {
+      localStorage.setItem('cheat', scheme);
+    }
+  };
+
+  const getCheat = () => {
+    const cheat = localStorage.getItem('cheat');
+    return cheat && ['off', 'normal', 'all'].includes(cheat)
+      ? cheat
+      : 'normal';
+  };
+
+  const updateControls = () => {
+    const cheat = getCheat();
+    Object.keys(cheatControls).forEach((opt) => {
+      cheatControls[opt].checked = (opt === cheat);
+    });
+  }
 
   // the reported stats
   const statsOut = {};
@@ -48,18 +76,15 @@ const write = (doc) => {
     need: '',
   };
 
+  const isValid = () => doc.startsWith(editor.value);
+
   const setState = () => {
-    state.value = doc.startsWith(editor.value) ? editor.value : state.value;
+    state.value = isValid() ? editor.value : state.value;
     state.count = state.value.length;
     state.need = doc.charAt(state.count);
   }
 
   // recording the details
-  const recordEvent = (event) => {
-    stats.previous = event.data;
-    setState();
-  }
-
   const recordResult = (good) => {
     if (good) {
       fails = 0;
@@ -91,7 +116,7 @@ const write = (doc) => {
     return true;
   }
 
-  // cheat modes
+  // cheating
   const normalCheat = () => {
     if (stats.previous.toLowerCase() === state.need.toLowerCase()) {
       return autoType();
@@ -104,9 +129,9 @@ const write = (doc) => {
 
   // actual input handling
   const handleInput = (event) => {
-    recordEvent(event);
+    stats.previous = event.data;
 
-    if (stats.previous === state.need) {
+    if (stats.previous == state.need) {
       recordResult(true);
     } else if (stats.previous) {
       // reset
@@ -115,23 +140,33 @@ const write = (doc) => {
 
       // try some cheats
       let result = false;
+      let cheat = getCheat();
 
-      if (mode === 'normal') {
+      if (cheat === 'normal') {
         result = normalCheat();
+      } else if (cheat === 'all') {
+        result = autoType();
       }
 
       // record the result
       recordResult(result);
+    } else if (!isValid()) {
+      editor.value = state.value;
+      recordResult(false);
     }
   }
 
   // init onload
   const init = () => {
     setState();
-    editor.addEventListener('input', handleInput);
+    updateControls();
+    editor && editor.addEventListener('input', handleInput);
+    cheatControls.off && cheatControls.off.addEventListener("change", () => setCheat("off"));
+    cheatControls.normal && cheatControls.normal.addEventListener("change", () => setCheat("normal"));
+    cheatControls.all && cheatControls.all.addEventListener("change", () => setCheat("all"));
   }
 
-  if (editor && doc) {
+  if (doc) {
     document.onload = init();
   }
 }

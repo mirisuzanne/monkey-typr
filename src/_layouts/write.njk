@@ -39,11 +39,27 @@ eleventyComputed:
     </li>
   </ul>
 
-  <div class="more">
-    {% if doc.data.details %}
-      <p>{{ doc.data.details | safe }}</p>
-    {% endif %}
+  {% if doc.data.details %}
+    <p>{{ doc.data.details | safe }}</p>
+  {% endif %}
 
+
+  <div class="radio-group">
+    <div class="radio-option">
+      <input type="radio" name="cheats" data-cheat="off" id="cheat-off">
+      <label for="cheat-off" class="radio-btn">🐙 sentient suckers (hard)</label>
+    </div>
+    <div class="radio-option">
+      <input type="radio" name="cheats" data-cheat="normal" id="cheat-normal" checked>
+      <label for="cheat-normal" class="radio-btn">🙈 monkey paws (normal)</label>
+    </div>
+    <div class="radio-option">
+      <input type="radio" name="cheats" data-cheat="all" id="cheat-all">
+      <label for="cheat-all" class="radio-btn">🐮 hoof hands (easy)</label>
+    </div>
+  </div>
+
+  <div class="more">
     <details data-drop="up left">
       <summary>wtf?!</summary>
       <div>
