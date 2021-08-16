@@ -166,7 +166,5 @@ const write = (doc) => {
     cheatControls.all.addEventListener("change", () => setCheat("all"));
   }
 
-  if (doc && editor) {
-    document.onload = init();
-  }
+  document.onload = init();
 }
