@@ -87,6 +87,13 @@ const write = (doc) => {
     state.need = doc.charAt(state.count);
   }
 
+  const cleanUp = () => {
+    setState();
+    stats.correct = state.count;
+    stats.remaining = stats.target - stats.correct;
+    pushStats(stats);
+  }
+
   // recording the details
   const recordResult = (good) => {
     if (good) {
@@ -104,11 +111,6 @@ const write = (doc) => {
         stats.hint = '';
       }
     }
-
-    setState();
-    stats.correct = state.count;
-    stats.remaining = stats.target - stats.correct;
-    pushStats(stats);
   }
 
   // cheat code!
@@ -159,6 +161,8 @@ const write = (doc) => {
       editor.value = state.value;
       recordResult(false);
     }
+
+    cleanUp();
   }
 
   // init onload
