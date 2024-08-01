@@ -2,7 +2,7 @@
 title: Limonade Tous les Jours
 author: Charles L. Mee
 details: |
-  <a href="https://www.charlesmee.org/limonade.shtml">the (re)making project</a>
+  from <a href="https://www.charlesmee.org/limonade.shtml">the (re)making project</a>
 ---
 
 

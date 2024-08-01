@@ -4,7 +4,7 @@ Try it out:
 
 ```
 npm install
-npm run serve
+npm run dev
 ```
 
 See `http://localhost:8080`

@@ -1,0 +1,219 @@
+---js
+{
+  layout: 'base',
+  grid: 'write',
+  eleventyComputed: {
+    title: data => data.doc.data.title || data.doc.slug,
+    desc: data => `
+      Write ${ data.title }
+      ${data.doc.data.author ? '(by ' + data.doc.data.author + ')' : ''}
+      as a monkey with a deadline,
+      a keyboad, and a bit of help.
+    `,
+  },
+}
+---
+
+<main>
+  <header>
+    <nav>
+      <a href="/" rel="home">
+        <visually-hidden>home</visually-hidden>
+        <emo-ji><monkey-see data-stat="reaction" aria-hidden="true">🐵</monkey-see></emo-ji>
+      </a>
+    </nav>
+
+    <div>
+      <h1 @text="this.title"></h1>
+
+      <template
+        webc:nokeep
+        webc:if="this.doc.data.author"
+      >
+        by
+        <i @text="doc.data.author"></i>
+      </template>
+      <template
+        webc:nokeep
+        webc:if="this.doc.data.details"
+      >
+        (<span @html="this.doc.data.details"></span>)
+      </template>
+    </div>
+
+    <div class="controls">
+      <toggle-control
+        data-for="#editor"
+        data-attr="data-cheat"
+        data-session="cheat"
+      >
+        <button data-value="hyper">
+          <emo-ji>🐌</emo-ji>
+        </button>
+        <button data-value="true">
+          <emo-ji>🐮</emo-ji>
+        </button>
+        <button data-value="normal" aria-pressed="true">
+          <emo-ji>🙈</emo-ji>
+        </button>
+        <button data-value="false">
+          <emo-ji>🐙</emo-ji>
+        </button>
+      </toggle-control>
+      <dialog-toggle data-controls="help">
+        <button>
+          <emo-ji aria-hidden="true">⁉️</emo-ji>
+          help
+        </button>
+      </dialog-toggle>
+    </div>
+  </header>
+
+  <monkey-write id="editor">
+    <template webc:keep @raw="doc.content"></template>
+  </monkey-write>
+
+  <monkey-hint data-missed="10">
+    Have you tried '<monkey-see data-stat="next"></monkey-see>'?
+  </monkey-hint>
+</main>
+
+<dialog id="help" open>
+  <p>
+    You have correctly typed
+    <monkey-see
+      data-stat="progress"
+    >0</monkey-see>
+    out of
+    <monkey-see
+      data-stat="total"
+      @text="doc.content.length || 'hello'"
+    ></monkey-see>
+    total characters
+    (and wasted
+    <monkey-see
+      data-stat="wasted"
+    >0</monkey-see>
+    keystrokes).
+    There are
+    <monkey-see
+      data-stat="remaining"
+      @text="doc.content.length || 'hello'"
+    ></monkey-see>
+    characters remaining in
+    <i @text="this.title"></i>.
+  </p>
+
+  <strong>Skill levels…</strong>
+  <ul>
+    <li>
+      <emo-ji>🐙</emo-ji>
+      <i>sentient suckers</i> —
+      If you're so good,
+      do it yourself.
+    </li>
+    <li>
+      <emo-ji>🙈</emo-ji>
+      <i>monkey paws</i> (the default) —
+      If you can hit the right letters,
+      we'll help with capitalization,
+      punctuation, and spacing.
+    </li>
+    <li>
+      <emo-ji>🐮</emo-ji>
+      <i>hoof hands</i> —
+      Hit any keys you want.
+      We know what you're trying to type.
+    </li>
+    <li>
+      <emo-ji>🐌</emo-ji>
+      <i>slime trail</i> –
+      Hitting keys is hard?
+      We'll give you a boost!
+    </li>
+  </ul>
+
+  <form method="dialog">
+    <button>
+      <emo-ji>🤷🏻‍♀️</emo-ji>
+      sure, Jan
+    </button>
+  </form>
+</dialog>
+
+<style webc:bucket="layout">
+  [data-grid=write] {
+    grid-template-rows: 1fr auto;
+
+    > footer {
+      padding: var(--shim) var(--gap);
+    }
+  }
+
+  main {
+    display: grid;
+    grid-template-rows: auto 1fr;
+
+    > header {
+      display: grid;
+      font-size: smaller;
+      gap: var(--shim);
+      grid-template-columns: auto 1fr auto;
+      padding: var(--shim);
+    }
+  }
+
+  .controls,
+  [data-attr='data-cheat'] {
+    align-content: center;
+    display: flex;
+    flex-flow: wrap;
+    gap: var(--shim);
+  }
+
+  #editor {
+    &::part(editor) {
+      border-inline: unset;
+      border-block: thin dotted;
+      padding: var(--gap);
+      padding-block-end: 25svh;
+      scroll-padding: 25svh;
+    }
+
+    &:focus-within {
+      &::part(editor) {
+        border-color: var(--action);
+        outline: medium solid transparent;
+      }
+    }
+  }
+
+  #help,
+  monkey-hint {
+    background: var(--bg);
+    border: medium solid;
+    gap: var(--gap);
+    padding: var(--gap);
+  }
+
+  monkey-hint {
+    display: flex;
+    inset: 0 0 auto auto;
+    margin: var(--shim);
+    position: fixed;
+
+    [data-close] {
+      font-size: smaller;
+    }
+  }
+
+  #help {
+    inset: 0;
+    place-content: safe center;
+    max-inline-size: 30em;
+
+    [method=dialog] {
+      font-size: smaller;
+    }
+  }
+</style>

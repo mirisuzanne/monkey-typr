@@ -1,0 +1,68 @@
+<script>
+class MonkeySee extends HTMLElement {
+  static register(tagName) {
+    if ('customElements' in window) {
+      customElements.define(tagName || 'monkey-see', MonkeySee);
+    }
+  }
+
+  static observedAttributes = [
+    'data-for',
+    'data-stat'
+  ];
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    switch (name) {
+      case 'data-for':
+        this.#setSrc();
+        break;
+    }
+
+    this.#setFromSrc();
+  }
+
+  src;
+
+  set output(value) {
+    this.innerHTML = value === undefined ? '🙈' : value;
+  }
+
+  connectedCallback() {
+    this.#setSrc();
+    this.#setFromSrc();
+  }
+
+  disconnectedCallback() {
+    this.src.removeEventListener('write', this.#onWriteEvent);
+  }
+
+  #onWriteEvent = (event) => {
+    this.output = event.detail[this.dataset.stat];
+  }
+
+  #setFromSrc = () => {
+    if (!this.src || !this.src.stats) return;
+    this.output = this.src.stats[this.dataset.stat];
+  }
+
+  #setSrc = () => {
+    if (this.src) {
+      this.src.removeEventListener('write', this.#onWriteEvent);
+    }
+
+    this.src = this.#findSrc();
+
+    if (!this.src) {
+      throw 'No monkey-write source found';
+    }
+
+    this.src.addEventListener('write', this.#onWriteEvent);
+  }
+
+  #findSrc = () => (this.dataset.for)
+    ? document.getElementById(this.dataset.for)
+    : document.querySelector('monkey-write');
+}
+
+MonkeySee.register();
+</script>

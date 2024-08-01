@@ -2,18 +2,20 @@
   "name": "monkey-typr",
   "version": "0.1.0",
   "title": "Monkey Typr",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/mirisuzanne/monkey-typr.git"
   },
   "private": true,
   "scripts": {
-    "serve": "npx @11ty/eleventy --serve",
+    "dev": "npx @11ty/eleventy --serve",
     "build": "npx @11ty/eleventy"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^1.0.2",
-    "@11ty/eleventy-plugin-rss": "^1.1.1",
+    "@11ty/eleventy": "^3.0.0-alpha.17",
+    "@11ty/eleventy-plugin-rss": "^2.0.2",
+    "@11ty/eleventy-plugin-webc": "^0.11.2",
     "gray-matter": "^4.0.3",
     "js-yaml": "^4.1.0"
   }

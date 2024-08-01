@@ -1,30 +1,27 @@
-const matter = require('gray-matter');
-const path = require('path');
-const fs = require('fs');
+import matter from 'gray-matter';
+import { join } from 'path';
+import { readdir, readFile } from 'node:fs/promises';
 
 // relative path from the root directory
-const textDir = 'txt/';
+const textDir = './txt/';
 
-module.exports = function() {
+export default async () => {
+  const files = await readdir(textDir);
   const docs = [];
 
-  fs.readdir(textDir, (err, files) => {
-    if (err) throw err;
+  for (let index = 0; index < files.length; index++) {
+    const file = files[index];
 
-    files.forEach(file => {
-      const filePath = path.join(textDir, file);
+    const filePath = join(textDir, file);
+    const data = await readFile(filePath, { encoding: 'utf8' });
+    const doc = matter(data);
 
-      fs.readFile(filePath, 'utf8', (err, data) => {
-        if (err) throw err;
+    doc.slug = file.split('.')[0];
+    doc.content = doc.content.replace('	', '    ').trim();
+    doc.chars = doc.content.length;
 
-        const doc = matter(data);
-        doc.slug = file.split('.')[0];
-        doc.content = doc.content.replace('	', '    ').trim();
-        doc.chars = doc.content.length;
-        docs.push(doc);
-      });
-    });
-  });
+    docs.push(doc);
+  }
 
   return docs;
 }

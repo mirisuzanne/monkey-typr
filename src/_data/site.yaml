@@ -1,5 +1,5 @@
 logo: 🙈
-title: monkey.writr.art
+title: Monkey Writr
 url: https://monkey.writr.art/
 author:
   name: Miriam Suzanne
@@ -12,7 +12,7 @@ og:
   locale: en_US
   type: website
   img: images/monkey.jpg
-  alt: |
-    monkey.writr.art:
+  desc: |
+    monkey.writr.art –
     You're infinite monkeys on a deadline.
     We're here to help.

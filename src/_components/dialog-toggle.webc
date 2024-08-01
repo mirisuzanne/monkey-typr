@@ -1,0 +1,59 @@
+<script>
+  class DialogToggle extends HTMLElement {
+    static register(tagName) {
+      if ('customElements' in window) {
+        customElements.define(tagName || 'dialog-toggle', DialogToggle);
+      }
+    }
+
+    toggle;
+    target;
+
+    get expanded() {
+      return this.toggle.getAttribute('aria-expanded') === 'true';
+    };
+
+    set expanded(to) {
+      this.toggle.setAttribute('aria-expanded', to ? 'true' : 'false');
+
+      if (to) {
+        this.target.show();
+      } else if (this.target.open) {
+        this.target.close();
+      }
+    };
+
+    togglePress = () => {
+      this.expanded = !this.expanded;
+    }
+
+    #initialAttrs = () => {
+      if (!this.toggle.hasAttribute('aria-expanded')) {
+        this.expanded = this.target.getAttribute('open');
+      }
+    }
+
+    connectedCallback() {
+      this.toggle = this.querySelector('button');
+
+      if (!this.toggle) throw 'No toggle button found';
+
+      this.target = document.getElementById(this.dataset.controls);
+
+      if (!this.target || this.target.tagName !== 'DIALOG') {
+        throw 'Target dialog not found';
+      }
+
+      this.#initialAttrs();
+
+      this.toggle.addEventListener('click', this.togglePress);
+      this.target.addEventListener("close", () => this.expanded = false);
+    }
+
+    disconnectedCallback() {
+      this.toggle.removeEventListener('click', this.togglePress);
+    }
+  }
+
+  DialogToggle.register();
+  </script>

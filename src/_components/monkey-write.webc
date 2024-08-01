@@ -1,0 +1,195 @@
+<script>
+class MonkeyWrite extends HTMLElement {
+  static register(tagName) {
+    if ('customElements' in window) {
+      customElements.define(tagName || 'monkey-write', MonkeyWrite);
+    }
+  }
+
+  static reactions = [ '🐵', '🙉', '🙊', '🙈' ];
+
+  static #appendShadowTemplate = (node) => {
+    const template = document.createElement('template');
+
+    template.innerHTML = `
+      <div part="prelude" id="prelude"><slot></slot></div>
+      <textarea part="editor" aria-describedby="prelude"></textarea>
+    `;
+
+    const shadowRoot = node.attachShadow({ mode: 'open' });
+    shadowRoot.appendChild(template.content.cloneNode(true));
+  }
+
+  static #adoptShadowStyles = (node) => {
+    const shadowStyle = new CSSStyleSheet();
+
+    shadowStyle.replaceSync(`
+      * { box-sizing: border-box; }
+      :host {
+        display: grid;
+        grid-template-rows: auto 1fr;
+        min-block-size: 4lh;
+      }
+
+      textarea {
+        appearance: none;
+        font: inherit;
+        inline-size: 100%;
+        padding: 0.5lh;
+        resize: none;
+      }
+    `);
+
+    node.shadowRoot.adoptedStyleSheets = [shadowStyle];
+  }
+
+  srcText;
+  editor;
+
+  #stats = {
+    progress: 0,
+    wasted: 0,
+    missed: 0,
+  };
+
+  #progress;
+
+  #writeEvent = (stats) => new CustomEvent('write', {
+    bubbles: true,
+    detail: stats
+  });
+
+  get isValid() {
+    return this.srcText.startsWith(this.editor.value) || !this.editor.value;
+  }
+  get progress() { return this.#progress || ''; }
+  get remaining() { return this.srcText.slice(this.#stats.progress); }
+  get next() { return this.srcText.charAt(this.#stats.progress); }
+  get nextIsSpecial() { return this.#isSpecial(this.next); }
+  get stats() { return this.#stats; }
+
+  set hit(value) {
+    if (value) {
+      this.#stats.missed = 0;
+    } else {
+      this.#stats.missed += 1;
+      this.#stats.wasted += 1;
+    }
+
+    this.#upDate();
+    this.dispatchEvent(this.#writeEvent(this.#stats));
+  }
+
+  constructor() {
+    super();
+    MonkeyWrite.#appendShadowTemplate(this);
+    MonkeyWrite.#adoptShadowStyles(this);
+  }
+
+  connectedCallback() {
+    const src = this.querySelector('template');
+
+    if (!src) {
+      console.error(
+        'Give your monkeys some text to strive for (in a slotted template)'
+      );
+      return;
+    }
+
+    this.srcText = this.#unEscapeHTML(src.innerHTML).trim();
+    this.editor = this.shadowRoot.querySelector('[part=editor]');
+
+    this.#upDate();
+    this.#stats.total = this.srcText.length;
+    this.editor.addEventListener('input', this.#onInput);
+    this.dispatchEvent(this.#writeEvent(this.#stats));
+  }
+
+  disconnectedCallback() {
+    this.editor.removeEventListener('input', this.#onInput);
+  }
+
+  try = (key) => {
+    const cheat = this.#getCheat(key);
+
+    if (cheat) {
+      this.#stats.prev = cheat.charAt(cheat.length - 1);
+      this.editor.value += cheat;
+      this.hit = cheat.length;
+    } else {
+      this.hit = false;
+    }
+  }
+
+  focusEditor = () => {
+    this.editor.focus();
+  }
+
+  #onInput = (event) => {
+    this.#stats.prev = event.data;
+
+    if (this.isValid) {
+      this.hit = true;
+    } else {
+      this.editor.value = this.progress;
+      this.try(event.data);
+    }
+  }
+
+  #upDate = () => {
+    this.#progress = this.isValid ? this.editor.value : this.progress;
+    this.#stats.progress = this.progress.length;
+    this.#stats.remaining = this.remaining.length;
+    this.#stats.next = this.next;
+
+    const getReact = Math.min(
+      Math.floor(this.#stats.missed / 15),
+      MonkeyWrite.reactions.length - 1
+    );
+
+    this.#stats.reaction = MonkeyWrite.reactions[getReact];
+  }
+
+  #isSpecial = (value) => (value.search(/[^\w\d]/g) !== -1);
+
+  #checkValid = (value) => {
+    return this.srcText.startsWith(value)
+      ? value
+      : null
+    ;
+  }
+
+  #getCheat = (value) => {
+    if (!value) return;
+
+    switch (this.dataset.cheat) {
+      case 'false':
+        return;
+      case 'true':
+        return this.next;
+      case 'hyper':
+        return this.remaining.slice(0, 4 + Math.floor(Math.random() * 20));
+    }
+
+    if (value === ' ' && this.nextIsSpecial) { return this.next; }
+    if (value.toLowerCase() === this.next.toLowerCase()) { return this.next; }
+
+    return false;
+  }
+
+  #unEscapeHTML = (str) =>
+    str.replace(
+      /&amp;|&lt;|&gt;|&#39;|&quot;/g,
+      tag =>
+        ({
+          '&amp;': '&',
+          '&lt;': '<',
+          '&gt;': '>',
+          '&#39;': "'",
+          '&quot;': '"'
+        }[tag] || tag)
+    );
+}
+
+MonkeyWrite.register();
+</script>

@@ -1,0 +1,47 @@
+---
+layout: base
+---
+
+<header>
+  <a href="/" rel="home">
+    <emo-ji @text="site.logo"></emo-ji>
+    <link-text @text="site.title"></link-text>
+  </a>
+</header>
+
+<main >
+  <h1 @text="this.title"></h1>
+  <page-content @raw="content"></page-content>
+</main>
+
+<style webc:bucket="layout">
+  [data-grid=page] {
+    grid-template-columns:
+      var(--gap) [margin-start]
+      minmax(0, 1fr)
+      [content-start] minmax(min-content, 34em) [content-end]
+      minmax(0, 1fr) [margin-end]
+      var(--gap)
+    ;
+
+    main {
+      grid-column: content;
+      padding-block: var(--gap);
+    }
+
+    > header,
+    > footer {
+      background: var(--bg);
+      grid-column: margin;
+      padding-block: var(--shim);
+    }
+
+    > header {
+      border-block-end: thin dotted;
+    }
+
+    > footer {
+      border-block-start: thin dotted;
+    }
+  }
+</style>

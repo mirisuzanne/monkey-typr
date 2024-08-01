@@ -1,20 +1,27 @@
-'use strict';
+import pluginWebc from "@11ty/eleventy-plugin-webc";
+import pluginRss, { absoluteUrl } from "@11ty/eleventy-plugin-rss";
+import { load } from 'js-yaml';
 
-const pluginRss = require("@11ty/eleventy-plugin-rss");
-const yaml = require("js-yaml");
-const now = new Date().getFullYear();
-
-module.exports = (eleventyConfig) => {
+export default async function (eleventyConfig) {
   eleventyConfig.addWatchTarget("./txt/");
 
   eleventyConfig.addPassthroughCopy('src/images');
   eleventyConfig.addPassthroughCopy('src/css');
   eleventyConfig.addPassthroughCopy('src/fonts');
 
-  eleventyConfig.addNunjucksShortcode("year", () => `${now}` );
-
-  eleventyConfig.addDataExtension("yaml", contents => yaml.load(contents));
   eleventyConfig.addPlugin(pluginRss);
+  eleventyConfig.addPlugin(pluginWebc, {
+    components: [
+      'src/_components/**/*.webc',
+    ],
+  });
+
+  eleventyConfig.addJavaScriptFunction("absoluteUrl", absoluteUrl);
+  eleventyConfig.addJavaScriptFunction("year", () =>
+    `${new Date().getUTCFullYear()}`
+  );
+
+  eleventyConfig.addDataExtension('yml, yaml', (contents) => load(contents));
 
   return {
     dir: {
