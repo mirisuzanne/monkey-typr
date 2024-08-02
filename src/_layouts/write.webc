@@ -113,7 +113,7 @@
       do it yourself.
     </li>
     <li>
-      <emo-ji>🙈</emo-ji>
+      <emo-ji>🐵</emo-ji>
       <i>monkey paws</i> (the default) —
       If you can hit the right letters,
       we'll help with capitalization,
@@ -135,8 +135,8 @@
 
   <form method="dialog">
     <button>
-      <emo-ji>🤷🏻‍♀️</emo-ji>
-      sure, Jan
+      <emo-ji aria-hidden="true">🤷‍♀️</emo-ji>
+      Sure, Jan
     </button>
   </form>
 </dialog>
