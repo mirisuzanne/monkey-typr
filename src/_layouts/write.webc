@@ -72,10 +72,6 @@
   <monkey-write id="editor">
     <template webc:keep @raw="doc.content"></template>
   </monkey-write>
-
-  <monkey-hint data-missed="10">
-    Have you tried '<monkey-see data-stat="next"></monkey-see>'?
-  </monkey-hint>
 </main>
 
 <dialog id="help" open>
@@ -172,11 +168,17 @@
   }
 
   #editor {
+    display: grid;
+
     &::part(editor) {
       border-inline: unset;
       border-block: thin dotted;
+      font: inherit;
+      inline-size: 100%;
+      min-block-size: 6lh;
       padding: var(--gap);
       padding-block-end: 25svh;
+      resize: none;
       scroll-padding: 25svh;
     }
 

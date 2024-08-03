@@ -154,7 +154,8 @@
   }
 
   /* buttons */
-  button {
+  button,
+  monkey-write::part(hint-close) {
     background: Canvas;
     border: medium solid currentColor;
     border-radius: 4px;

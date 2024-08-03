@@ -12,6 +12,7 @@ export default async function (eleventyConfig) {
   eleventyConfig.addPlugin(pluginRss);
   eleventyConfig.addPlugin(pluginWebc, {
     components: [
+      'npm:@terriblemia/monkey-write/*.webc',
       'src/_components/**/*.webc',
     ],
   });
