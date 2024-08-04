@@ -44,7 +44,7 @@ layout: base
     > header {
       border-block-end: thin dotted;
       display: flex;
-      justify-content: space-around;
+      justify-content: space-between;
     }
 
     > footer {
