@@ -7,6 +7,11 @@ layout: base
     <emo-ji @text="site.logo"></emo-ji>
     <link-text @text="site.title"></link-text>
   </a>
+
+  <a href="/about">
+    <link-text>WTF</link-text>
+    <emo-ji aria-hidden="true">⁉️</emo-ji>
+  </a>
 </header>
 
 <main >
@@ -38,6 +43,8 @@ layout: base
 
     > header {
       border-block-end: thin dotted;
+      display: flex;
+      justify-content: space-around;
     }
 
     > footer {

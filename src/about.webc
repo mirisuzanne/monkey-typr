@@ -1,0 +1,24 @@
+---
+title: What's going on?
+---
+
+<p>
+  Nothing is stopping you
+  from writing Hamlet
+  (or whatever).
+  All you have to do is type
+  the right words in the right order.
+  This tool will help you get there.
+</p>
+
+<h2>Get the web component!</h2>
+
+<p>
+  This tool is also available
+  as an open-source
+  <a href="https://github.com/mirisuzanne/monkey-write">
+    <code>&lt;monkey-write></code> web component</a>,
+  which can be deployed
+  anywhere on the web!
+  (Monkeys not included)
+</p>

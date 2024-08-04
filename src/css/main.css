@@ -153,6 +153,13 @@
     margin-block: 0.25lh;
   }
 
+  emo-ji {
+    filter: drop-shadow(0 1px Canvas);
+    font-family: "Twemoji Mozilla", Apple Color Emoji, "Segoe UI Emoji", "Noto Color Emoji", "EmojiOne Color";
+    font-style: normal !important;
+    font-variant-caps: initial !important;
+  }
+
   /* buttons */
   button,
   monkey-write::part(hint-close) {
