@@ -28,27 +28,27 @@ layout: base
       minmax(0, 1fr) [margin-end]
       var(--gap)
     ;
+  }
 
-    main {
-      grid-column: content;
-      padding-block: var(--gap);
-    }
+  main {
+    grid-column: content;
+    padding-block: var(--gap);
+  }
 
-    > header,
-    > footer {
-      background: var(--bg);
-      grid-column: margin;
-      padding-block: var(--shim);
-    }
+  [data-grid=page] > header,
+  [data-grid=page] > footer {
+    background: var(--bg);
+    grid-column: margin;
+    padding-block: var(--shim);
+  }
 
-    > header {
-      border-block-end: thin dotted;
-      display: flex;
-      justify-content: space-between;
-    }
+  [data-grid=page] > header {
+    border-block-end: thin dotted;
+    display: flex;
+    justify-content: space-between;
+  }
 
-    > footer {
-      border-block-start: thin dotted;
-    }
+  [data-grid=page] > footer {
+    border-block-start: thin dotted;
   }
 </style>

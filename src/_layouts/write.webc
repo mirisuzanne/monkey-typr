@@ -141,22 +141,23 @@
   [data-grid=write] {
     grid-template-rows: 1fr auto;
 
-    > footer {
-      padding: var(--shim) var(--gap);
-    }
+  }
+
+  [data-grid=write] > footer {
+    padding: var(--shim) var(--gap);
   }
 
   main {
     display: grid;
     grid-template-rows: auto 1fr;
+  }
 
-    > header {
-      display: grid;
-      font-size: smaller;
-      gap: var(--shim);
-      grid-template-columns: auto 1fr auto;
-      padding: var(--shim);
-    }
+  main > header {
+    display: grid;
+    font-size: smaller;
+    gap: var(--shim);
+    grid-template-columns: auto 1fr auto;
+    padding: var(--shim);
   }
 
   .controls,
@@ -169,53 +170,39 @@
 
   #editor {
     display: grid;
+  }
 
-    &::part(editor) {
-      border-inline: unset;
-      border-block: thin dotted;
-      font: inherit;
-      inline-size: 100%;
-      min-block-size: 6lh;
-      padding: var(--gap);
-      padding-block-end: 25svh;
-      resize: none;
-      scroll-padding: 25svh;
-    }
+  #editor::part(editor) {
+    border-inline: unset;
+    border-block: thin dotted;
+    font: inherit;
+    inline-size: 100%;
+    min-block-size: 6lh;
+    padding: var(--gap);
+    padding-block-end: 25svh;
+    resize: none;
+    scroll-padding: 25svh;
+  }
 
-    &:focus-within {
-      &::part(editor) {
-        border-color: var(--action);
-        outline: medium solid transparent;
-      }
-    }
+  #editor:focus-within::part(editor) {
+    border-color: var(--action);
+    outline: medium solid transparent;
   }
 
   #help,
-  monkey-hint {
+  ::part(hint) {
     background: var(--bg);
     border: medium solid;
-    gap: var(--gap);
-    padding: var(--gap);
-  }
-
-  monkey-hint {
-    display: flex;
-    inset: 0 0 auto auto;
-    margin: var(--shim);
-    position: fixed;
-
-    [data-close] {
-      font-size: smaller;
-    }
   }
 
   #help {
     inset: 0;
     place-content: safe center;
     max-inline-size: 30em;
+    padding: var(--gap);
+  }
 
-    [method=dialog] {
-      font-size: smaller;
-    }
+  #help[method=dialog] {
+    font-size: smaller;
   }
 </style>
