@@ -1,9 +1,10 @@
-import pluginWebc from "@11ty/eleventy-plugin-webc";
-import pluginRss, { absoluteUrl } from "@11ty/eleventy-plugin-rss";
+import { eleventyImagePlugin } from '@11ty/eleventy-img';
+import pluginWebc from '@11ty/eleventy-plugin-webc';
+import pluginRss, { absoluteUrl } from '@11ty/eleventy-plugin-rss';
 import { load } from 'js-yaml';
 
 export default async function (eleventyConfig) {
-  eleventyConfig.addWatchTarget("./txt/");
+  eleventyConfig.addWatchTarget('./txt/');
 
   eleventyConfig.addPassthroughCopy('src/images');
   eleventyConfig.addPassthroughCopy('src/css');
@@ -13,12 +14,25 @@ export default async function (eleventyConfig) {
   eleventyConfig.addPlugin(pluginWebc, {
     components: [
       'npm:@terriblemia/monkey-write/*.webc',
+      'npm:@11ty/eleventy-img/*.webc',
       'src/_components/**/*.webc',
     ],
   });
 
-  eleventyConfig.addJavaScriptFunction("absoluteUrl", absoluteUrl);
-  eleventyConfig.addJavaScriptFunction("year", () =>
+  // Image plugin
+	eleventyConfig.addPlugin(eleventyImagePlugin, {
+		// Set global default options
+		formats: ["avif", "jpeg"],
+		urlPath: "/img/",
+
+		defaultAttributes: {
+			loading: "lazy",
+			decoding: "async",
+		},
+	});
+
+  eleventyConfig.addJavaScriptFunction('absoluteUrl', absoluteUrl);
+  eleventyConfig.addJavaScriptFunction('year', () =>
     `${new Date().getUTCFullYear()}`
   );
 

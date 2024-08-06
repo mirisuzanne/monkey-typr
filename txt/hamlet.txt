@@ -1,6 +1,7 @@
 ---
 title: Hamlet
 author: William Shakespeare
+olid: OL36620255M
 ---
 
 ACT 1

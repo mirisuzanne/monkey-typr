@@ -30,12 +30,19 @@
   button {
     font: inherit;
   }
+
+  img {
+    block-size: auto;
+    max-inline-size: 100%;
+    vertical-align: middle;
+  }
 }
 
 @layer config {
   html {
     /* scale */
     --gap: clamp(12px, 5vi, 24px);
+    --spacer: calc(var(--gap) * 2);
     --shim: calc(var(--gap) / 2);
 
     /* colors */

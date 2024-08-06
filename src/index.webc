@@ -1,0 +1,69 @@
+---
+title: A Text Editor for Monkeys on Deadline
+---
+
+<script webc:setup>
+const imgSrc = (data) => {
+  if (data.img) return data.img;
+
+  if (data.olid) {
+    return `https://covers.openlibrary.org/b/olid/${data.olid}-L.jpg`;
+  }
+}
+</script>
+
+<p>
+  A monkey hitting keys at random
+  <em>for an infinite amount of time</em>
+  will eventually want some help
+  writing Hamlet (or whatever).
+</p>
+
+<p>
+  <em>You're the monkey.
+  We're here to help.</em>
+</p>
+
+<h2>What would you like to write?</h2>
+
+<text-gallery webc:if="this.docs.length > 0">
+  <article webc:for="item of this.docs">
+    <a :href="`/write/${item.slug}/`">
+      <img
+        webc:is="eleventy-image"
+        webc:if="imgSrc(item.data)"
+        :src="imgSrc(item.data)"
+        alt="cover art">
+    </a>
+    <h3>
+      <a
+        :href="`/write/${item.slug}/`"
+        @text="item.data.title || item.slug"
+      ></a>
+    </h3>
+    <span
+      webc:if="item.data.author"
+      @text="`by ${item.data.author}`"
+    ></span>
+  </article>
+</text-gallery>
+
+
+<style webc:bucket="objects">
+text-gallery {
+  display: grid;
+  gap: var(--gap);
+  grid-template-columns: repeat(auto-fit, minmax(14em, 1fr));
+  font-size: smaller;
+  row-gap: var(--spacer);
+
+  @media (min-width: 55em) {
+    margin-inline: calc(var(--spacer) * -1);
+  }
+
+  h3 {
+    font-size: inherit;
+    margin: unset;
+  }
+}
+</style>

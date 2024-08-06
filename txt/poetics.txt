@@ -2,6 +2,7 @@
 title: Poetics
 author: Aristotle
 details: translated by S. H. Butcher
+olid: OL32710995M
 ---
 
 SECTION 1

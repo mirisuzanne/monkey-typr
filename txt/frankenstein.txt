@@ -1,6 +1,7 @@
 ---
 title: Frankenstein; or, the Modern Prometheus
 author: Mary Wollstonecraft Shelley
+olid: OL37044608M
 ---
 
 Letter 1

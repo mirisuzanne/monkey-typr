@@ -1,8 +1,9 @@
 ---
-title: JANE/EYRE
+title: JANE/EYRE (a play)
 author: Grapefruit Lab
+img: ./src/_img/jane.jpg
 details: |
-  a <a href="https://www.miriamsuzanne.com/theater/janeeyre/">queer adaptation</a>
+  a <a href="https://grapefruitlab.com/shows/jane-eyre/">queer adaptation</a>
 ---
 
 I. Gateshead

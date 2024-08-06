@@ -1,6 +1,7 @@
 ---
 title: What a Queer Bird
 details: origin unknown
+img: ./src/_img/queer-bird.jpg
 ---
 
 What a queer bird, the frog are
