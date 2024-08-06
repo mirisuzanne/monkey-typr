@@ -14,6 +14,7 @@ export default async function (eleventyConfig) {
   eleventyConfig.addPlugin(pluginWebc, {
     components: [
       'npm:@terriblemia/monkey-write/*.webc',
+      'npm:@terriblemia/ground-control/*.webc',
       'npm:@11ty/eleventy-img/*.webc',
       'src/_components/**/*.webc',
     ],
